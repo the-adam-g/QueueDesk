@@ -2,7 +2,7 @@
 <?php
 session_start();
 include "config.php";
-
+include 'cmode.php';
 if (isset($_GET['id'])) {
   $searchid = $_GET['id'];
   if (isset($_SESSION['login'])) {
@@ -58,7 +58,6 @@ foreach ($results as $row) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QueueDesk Admin Panel</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="light.css">
     <meta property="og:title" content="QueueDesk">
     <meta property="og:description" content="Admin Panel">
     <meta property="og:image" content="idkyet">
@@ -76,10 +75,11 @@ foreach ($results as $row) {
         <h1><special>QueueDesk admin panel.</special></h1>
         <h1 id="head2"><?php echo 'Welcome <special>' . $role . "</special> " . $name;?></special></h1>
         <div id="navbar">
-            <a id="navb" href="dash.php">Open Tickets</a>
+            <a id="navb" href="dash.php">Home</a>
+            <a id="navb" href="assetregister.php">Asset Register</a>
+            <a <?php if ($role !== "admin") { echo 'style="visibility: hidden;"'; } ?> id="navb" href="admin.php">Admin Panel</a>
             <a id="navb" href="logout.php">Logout</a>
-            <a id="navb" href="admin.php">Admin</a>
-        </div>
+         </div>
         <?php
         if ($role === "admin") {
           $stmt2 = $pdo->prepare('SELECT * FROM users');
@@ -92,7 +92,7 @@ foreach ($results as $row) {
           echo "<form action='' method='POST'><select name='users' id='users' onchange='this.form.submit()'><option value='' disabled selected>Select a user</option>" . $selections . "</select></form>";
         }
         ?>
-        <h1>Tickets Solved Per Week (<?php echo htmlspecialchars($searchname); ?>)</h1>
+        <h1>Tickets Solved Per Week (<?php echo htmlspecialchars($searchname, ENT_QUOTES, 'UTF-8'); ?>)</h1>
         <canvas id="myChart" width="200" height="100"></canvas>
         <script src="chart.umd.min.js"></script>
         <script>
@@ -100,7 +100,13 @@ foreach ($results as $row) {
             Chart.register(...Chart.registerables);
           }
 
-          const labels = <?php echo json_encode($labels); ?>;
+          const rawLabels = <?php echo json_encode($labels); ?>;
+          const labels = rawLabels.map(week => {
+              week = week.toString();
+              const year = week.substring(0, 4);
+              const weekNum = week.substring(4);
+              return weekNum.padStart(2, '0') + "/" + year;
+          });
           const data = <?php echo json_encode($data); ?>;
 
           const ctx = document.getElementById('myChart').getContext('2d');

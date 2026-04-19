@@ -11,37 +11,37 @@ if (isset($_SESSION['login'])) {
     header('Location: index.php');
     exit();
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ticketid = $_POST["id"];
-    $stmt = $pdo->prepare('INSERT INTO tickets SELECT * FROM past_tickets WHERE id = ?');
+    $stmt = $pdo->prepare('INSERT INTO past_tickets SELECT * FROM tickets WHERE id = ?');
     $stmt->execute([$ticketid]);
-    $stmt3 = $pdo->prepare('UPDATE users SET tickets = tickets + 1 WHERE username = ?');
-    $stmt3->execute([$name]);
-    $stmt2 = $pdo->prepare('DELETE FROM past_tickets WHERE id = ?');
+    $stmt2 = $pdo->prepare('DELETE FROM tickets WHERE id = ?');
     $stmt2->execute([$ticketid]);
-    $stmt3 = $pdo->prepare('UPDATE users SET solved = solved - 1 WHERE username = ?');
+    $stmt3 = $pdo->prepare('UPDATE users SET tickets = tickets - 1 WHERE username = ?');
     $stmt3->execute([$name]);
-    header("Location: archive.php");
+    $stmt4 = $pdo->prepare('UPDATE users SET solved = solved + 1 WHERE username = ?');
+    $stmt4->execute([$name]);
+    echo $ticketid;
+    header("Location: opentickets.php");
     exit;
 }
-
 $selectedticket = null;
 if (isset($_GET['ticket'])) {
     $ticketid = $_GET['ticket'];
     if (filter_var($ticketid, FILTER_VALIDATE_INT)) {
-        $stmt = $pdo->prepare("SELECT * FROM past_tickets WHERE id = ? AND assignee = ?");
+        $stmt = $pdo->prepare("SELECT * FROM tickets WHERE id = ? AND assignee = ?");
         $stmt->execute([$ticketid, $name]);
         $selectedticket = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueueDesk past tickets</title>
+    <title>QueueDesk dashboard</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta property="og:title" content="QueueDesk">
     <meta property="og:description" content="Create a QueueDesk ticket">
@@ -57,11 +57,11 @@ if (isset($_GET['ticket'])) {
         <h1>Queue<special>Desk</special></h1>
     </section>
     <section id="messages">
-        <h1>Queue<special>Desk Closed Tickets</special></h1>
+        <h1>Queue<special>Desk Open Tickets</special></h1>
         <h1 id="head2"><?php echo 'Welcome <special>' . $role . "</special> " . $name;?></special></h1>
         <div id="navbar">
             <a id="navb" href="dash.php">Home</a>
-            <a id="navb" href="opentickets.php">Open Tickets</a>
+            <a id="navb" href="archive.php">Closed Tickets</a>
             <a id="navb" href="assetregister.php">Asset Register</a>
             <a <?php if ($role !== "admin") { echo 'style="visibility: hidden;"'; } ?> id="navb" href="admin.php">Admin Panel</a>
             <a id="navb" href="logout.php">Logout</a>
@@ -78,7 +78,7 @@ if (isset($_GET['ticket'])) {
                     <th>TIMESTAMP</th>
                 </tr>
                 <?php
-                $stmt = $pdo->prepare('SELECT * FROM past_tickets WHERE assignee = ? ORDER BY urgency ASC');
+                $stmt = $pdo->prepare('SELECT * FROM tickets WHERE assignee = ? ORDER BY urgency ASC');
                 $stmt->execute([$name]);
                 $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($tickets as $ticket) {
@@ -105,7 +105,7 @@ if (isset($_GET['ticket'])) {
                             $urgency = "Other / Not sure";
                             break;
                     }
-                    echo("<tr onclick=\"window.location='archive.php?ticket=" . (int)$ticket['id'] . "'\">" . "<td>". $ticket['id'] . "</td><td>". htmlspecialchars($ticket['creator'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['summary'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($urgency, ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['timestamp'], ENT_QUOTES, 'UTF-8') . "</td></tr>");
+                    echo("<tr onclick=\"window.location='opentickets.php?ticket=" . (int)$ticket['id'] . "'\">" . "<td>". $ticket['id'] . "</td><td>". htmlspecialchars($ticket['creator'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['summary'], ENT_QUOTES, 'UTF-8') . "</td><td>". $urgency . "</td><td>". htmlspecialchars($ticket['timestamp'], ENT_QUOTES, 'UTF-8') . "</td></tr>");
                 }
                 ?>
                 </table>
@@ -139,7 +139,7 @@ if (isset($_GET['ticket'])) {
             ?>
                 <h1>Ticket #<?= $selectedticket['id'] ?></h1>
                 <p><special>Creator:</special> <?php echo htmlspecialchars($selectedticket['creator'], ENT_QUOTES, 'UTF-8') ?></p>
-                <p><special>Urgency:</special> <?php echo htmlspecialchars($urgency, ENT_QUOTES, 'UTF-8') ?></p>
+                <p><special>Urgency:</special> <?php echo $urgency ?></p>
                 <p><special>Type:</special> <?php echo htmlspecialchars($selectedticket['type'], ENT_QUOTES, 'UTF-8') ?></p>
                 <p><special>Summary:</special> <?php echo htmlspecialchars($selectedticket['summary'], ENT_QUOTES, 'UTF-8') ?></p>
                 <p><special>Details:</special> <?php echo htmlspecialchars($selectedticket['details'], ENT_QUOTES, 'UTF-8') ?></p>
@@ -155,7 +155,7 @@ if (isset($_GET['ticket'])) {
                 <p><special>Timestamp:</special> <?php echo htmlspecialchars($selectedticket['timestamp'], ENT_QUOTES, 'UTF-8') ?></p>
                 <form method="POST">
                     <input type="hidden" name="id" value="<?php echo (int)$selectedticket['id'] ?>">
-                    <input type="submit" value="Open ticket">
+                    <input type="submit" value="Close ticket">
                 </form>
             <?php 
             } else {

@@ -1,5 +1,5 @@
 special {
-    color: #4F46E5;
+    color: #1f6feb;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
@@ -13,28 +13,28 @@ ar {
     font-style: normal;
 }
 ::selection {
-    background-color: #4F46E5;
+    background-color: #1f6feb;
     color: #F5F7FA;
 }
 html {
     scroll-behavior: smooth;
 }
 head h1 {
-    color: #4F46E5;
+    color: #1f6feb;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;
 }
 h1 {
-    color: #1F2937;
+    color: #E5E7EB;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;
 }
 #head2 {
-    color: #1F2937;
+    color: #E5E7EB;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
@@ -42,8 +42,8 @@ h1 {
     font-size: 24px !important;
 }
 body {
-    background-color: #F5F7FA;
-    color: #1F2937;
+    background-color: #0a073b;
+    color: #F5F7FA;
 }
 p{
     font-family: "Golos Text", sans-serif;
@@ -60,6 +60,7 @@ table {
     font-family: "Golos Text", sans-serif;
     font-size: 15px;
 }
+
 th {
     font-size: 21px;
     font-family: "Golos Text", sans-serif;
@@ -69,7 +70,7 @@ th {
     text-align: left;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: #4F46E5; 
+    color: #1f6feb; 
     padding: 12px 16px;
     border-bottom: 1px solid #e5e7eb;
 }
@@ -77,7 +78,7 @@ tr {
     transition: background 0.15s ease;
 }
 tr:hover {
-    background-color: #f9fafb;
+    background-color: #231f5c;
     cursor: pointer;
 }
 td {
@@ -98,7 +99,7 @@ button {
     font-size: 18px;
 }
 a {
-    color: #4F46E5;
+    color: #1f6feb;
     text-decoration: none;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
@@ -109,10 +110,10 @@ a:hover {
     text-decoration: underline;
 }
 #messages, #ot, .messages {
-    border: 1px solid #E5E7EB;
+    border: 1px solid #1e1b52;
     border-radius: 20px;
     padding: 20px;
-    background-color: #FFFFFF;
+    background-color: #1e1b52;
     max-width: 1500px;
     margin: auto;
 }
@@ -141,16 +142,17 @@ textarea {
     font-family: "Golos Text", sans-serif;
     font-size: 16px;
     border-radius: 12px;
-    border: 1px solid #D1D5DB;
-    background-color: #FFFFFF;
+    color: #E5E7EB;
+    border: 1px solid #1f6feb;
+    background-color: #1f6feb;
 }
 textarea {
     resize: vertical;
     min-height: 20px;
 }
 input:hover{
-    background-color: #4F46E5;
-    color: white;
+    background-color: #E5E7EB;
+    color: #1f6feb;
     transition-duration: 0.35s;
 }
 #navbar {
@@ -158,7 +160,7 @@ input:hover{
     flex-direction: row;
 }
 #pbox {
-    border: 1px solid #E5E7EB;
+    border: 1px solid #1f6feb;
     color: #E5E7EB;
     background-color: #1f6feb;
     border-radius: 10px;
@@ -170,13 +172,13 @@ input:hover{
     flex-direction: row;
     border: 1px solid #E5E7EB;
     color: #E5E7EB;
-    background-color: #4F46E5;
+    background-color: #1f6feb;
     border-radius: 10px;
     padding: 10px;
 }
 #navb:hover {
-    border: 1px solid #4F46E5;
-    color: #4F46E5;
+    border: 1px solid #E5E7EB;
+    color: #1f6feb;
     background-color: #E5E7EB;
     transition-duration: 0.35s;
 }
@@ -193,8 +195,8 @@ input:hover{
 }
 #ibox {
     margin-right: 10px;
-    border: 1px solid #4F46E5;
-    background-color:  #4F46E5;
+    border: 1px solid #1f6feb;
+    background-color:  #1f6feb;
     width: 25%;
     font-weight: 600;
     font-size: 26px;
@@ -205,9 +207,9 @@ input:hover{
     text-align: center;
 }
 #ibox h1 {
-    border: 1px solid #4F46E5;
+    border: 1px solid #1f6feb;
     color: #E5E7EB  !important;
-    background-color: #4F46E5;
+    background-color: #1f6feb;
     font-weight: 600;
     font-size: 26px;
     font-family: "Golos Text", sans-serif;
@@ -266,7 +268,7 @@ input[type="radio"] {
     border-radius: 50%;
     width: auto;
     height: auto;
-    accent-color:#4F46E5;
+    accent-color:#1f6feb;
 }
 .radio {
     display: flex;

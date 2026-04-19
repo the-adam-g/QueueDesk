@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "config.php";
+include 'cmode.php';
 if (isset($_SESSION['login'])) {
     $id = $_SESSION['user_id'];
     $name = $_SESSION['name'];
@@ -22,7 +23,6 @@ if(isset($_POST['target'])) {
     $data = $_POST['data'];
     $allowedtables = ['tickets' => 'tickets', 'past_tickets' => 'past_tickets'];
     if (!in_array($data, $allowedtables, true)) {
-        echo ('<link rel="stylesheet" href="light.css">');
         echo("<h1>Queue<special>Desk</special> <special style='color:red;'>Error Handler</special></h1>");
         echo("<h1>Fatal request - Unauthorised Table Access <br><special style='color:red;'> Error code: (#a1)</special></h1>");
         echo "<a id='navb' style='max-width: 10%;' href='dash.php'>Return</a>";

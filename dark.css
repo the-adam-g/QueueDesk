@@ -27,14 +27,14 @@ head h1 {
     font-style: normal;
 }
 h1 {
-    color: #1F2937;
+    color: #E5E7EB;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;
 }
 #head2 {
-    color: #1F2937;
+    color: #E5E7EB;
     font-family: "Golos Text", sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
@@ -42,8 +42,8 @@ h1 {
     font-size: 24px !important;
 }
 body {
-    background-color: #F5F7FA;
-    color: #1F2937;
+    background-color: #0a073b;
+    color: #F5F7FA;
 }
 p{
     font-family: "Golos Text", sans-serif;
@@ -60,6 +60,7 @@ table {
     font-family: "Golos Text", sans-serif;
     font-size: 15px;
 }
+
 th {
     font-size: 21px;
     font-family: "Golos Text", sans-serif;
@@ -77,7 +78,7 @@ tr {
     transition: background 0.15s ease;
 }
 tr:hover {
-    background-color: #f9fafb;
+    background-color: #231f5c;
     cursor: pointer;
 }
 td {
@@ -109,10 +110,10 @@ a:hover {
     text-decoration: underline;
 }
 #messages, #ot, .messages {
-    border: 1px solid #E5E7EB;
+    border: 1px solid #1e1b52;
     border-radius: 20px;
     padding: 20px;
-    background-color: #FFFFFF;
+    background-color: #1e1b52;
     max-width: 1500px;
     margin: auto;
 }
@@ -141,16 +142,17 @@ textarea {
     font-family: "Golos Text", sans-serif;
     font-size: 16px;
     border-radius: 12px;
-    border: 1px solid #D1D5DB;
-    background-color: #FFFFFF;
+    color: #E5E7EB;
+    border: 1px solid #4F46E5;
+    background-color: #4F46E5;
 }
 textarea {
     resize: vertical;
     min-height: 20px;
 }
 input:hover{
-    background-color: #4F46E5;
-    color: white;
+    background-color: #E5E7EB;
+    color: #4F46E5;
     transition-duration: 0.35s;
 }
 #navbar {
@@ -158,9 +160,9 @@ input:hover{
     flex-direction: row;
 }
 #pbox {
-    border: 1px solid #E5E7EB;
+    border: 1px solid #4F46E5;
     color: #E5E7EB;
-    background-color: #1f6feb;
+    background-color: #4F46E5;
     border-radius: 10px;
     padding: 10px;
     max-width: fit-content;
@@ -175,7 +177,7 @@ input:hover{
     padding: 10px;
 }
 #navb:hover {
-    border: 1px solid #4F46E5;
+    border: 1px solid #E5E7EB;
     color: #4F46E5;
     background-color: #E5E7EB;
     transition-duration: 0.35s;

@@ -1,12 +1,12 @@
 <?php
 session_start();
 include "config.php";
+include 'cmode.php';
 $uac = $_GET['uac'];
 if (!$uac || !preg_match('/^[a-f0-9]{32}$/', $uac)) {
     header("Location: index.php");
     exit();
 }
-$myticket = "/myticket.php?uac=" . urlencode($uac);
 $uac = htmlspecialchars($uac, ENT_QUOTES, 'UTF-8');
 $ticket = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,9 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueueDesk dashboard</title>
+    <title>Your QueueDesk Ticket</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="light.css">
     <meta property="og:title" content="QueueDesk">
     <meta property="og:description" content="Create a QueueDesk ticket">
     <meta property="og:image" content="idkyet">

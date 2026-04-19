@@ -101,22 +101,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Queue<special>Desk</special></h1>
     </section>
     <section id="messages">
-        <h1><special>Register to QueueDesk as Staff.</special></h1>
+        <h1><special>Login to QueueDesk as Staff.</special></h1>
+         <form action="" method="post">
+            <label>Your name: </label><input type="text" name="name" required>
+            <label>Your password: </label><input type="password" name="pass" required>
+            <input type="submit" id="login" value="login" name="login">
+        </form>
+    </section>
+    <br>
+    <section id="messages">
+        <h1><special>Register to QueueDesk.</special></h1>
          <form action="" method="post">
             <label>Your name: </label><input type="text" name="name" required>
             <label>Your password: </label><input type="password" name="pass" required>
             <label>Authorisation password: </label><input type="password" name="auth" required>
             <label>Admin registration password: </label><input type="password" name="admin">
             <input type="submit" id="register" value="Register" name="register">
-        </form>
-    </section>
-    <br> 
-    <section id="messages">
-        <h1><special>Login to QueueDesk as Staff.</special></h1>
-         <form action="" method="post">
-            <label>Your name: </label><input type="text" name="name" required>
-            <label>Your password: </label><input type="password" name="pass" required>
-            <input type="submit" id="login" value="login" name="login">
         </form>
     </section>
 </body>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+include 'cmode.php';
 
 if (isset($_SESSION['login'])) {
     $id = $_SESSION['user_id'];
@@ -9,20 +10,6 @@ if (isset($_SESSION['login'])) {
 } else {
     header('Location: index.php');
     exit();
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ticketid = $_POST["id"];
-    $stmt = $pdo->prepare('INSERT INTO past_tickets SELECT * FROM tickets WHERE id = ?');
-    $stmt->execute([$ticketid]);
-    $stmt2 = $pdo->prepare('DELETE FROM tickets WHERE id = ?');
-    $stmt2->execute([$ticketid]);
-    $stmt3 = $pdo->prepare('UPDATE users SET tickets = tickets - 1 WHERE username = ?');
-    $stmt3->execute([$name]);
-    $stmt4 = $pdo->prepare('UPDATE users SET solved = solved + 1 WHERE username = ?');
-    $stmt4->execute([$name]);
-    echo $ticketid;
-    header("Location: dash.php");
-    exit;
 }
 
 ?>
@@ -33,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QueueDesk dashboard</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="light.css">
     <meta property="og:title" content="QueueDesk">
     <meta property="og:description" content="Create a QueueDesk ticket">
     <meta property="og:image" content="idkyet">
@@ -48,34 +34,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Queue<special>Desk</special></h1>
     </section>
     <section id="messages">
-        <h1><special>QueueDesk dashboard.</special></h1>
+        <h1>Queue<special>Desk Dashboard</special></h1>
         <h1 id="head2"><?php echo 'Welcome <special>' . $role . "</special> " . $name;?></special></h1>
         <div id="navbar">
+            <a id="navb" href="dash.php">Home</a>
+            <a id="navb" href="opentickets.php">Open Tickets</a>
             <a id="navb" href="archive.php">Closed Tickets</a>
-            <a id="navb" href="logout.php">Logout</a>
+            <a id="navb" href="assetregister.php">Asset Register</a>
             <a <?php if ($role !== "admin") { echo 'style="visibility: hidden;"'; } ?> id="navb" href="admin.php">Admin Panel</a>
+            <a id="navb" href="settings.php">Settings</a>
+            <a id="navb" href="logout.php">Logout</a>
         </div>
-        <p>Tickets:</p>
-        <table>
-        <tr>
-            <th>ID</th>
-            <th>TIMESTAMP</th>
-            <th>CREATOR</th>
-            <th>EMAIL</th>
-            <th>TYPE</th>
-            <th>DETAILS</th>
-            <th>URGENCY</th>
-            <th>MANAGE</th>
-        </tr>
-        <?php
-        $stmt = $pdo->prepare('SELECT * FROM tickets WHERE assignee = ? ORDER BY urgency ASC');
-        $stmt->execute([$name]);
-        $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($tickets as $ticket) {
-            echo("<tr>" . "<td>". $ticket['id'] . "</td><td>". htmlspecialchars($ticket['timestamp'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['creator'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['email'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['type'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['details'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['urgency'], ENT_QUOTES, 'UTF-8') . "</td><td>". "<form action='' method='POST'><input type='hidden' name='id' value=" . (int)$ticket['id'] . "><input type='submit' value='Close ticket'></form></tr>");
-        }
-        ?>
-        </table>
+        <br>
+        <div id="boxes">
+            <div id="ibox" onclick="location.href = 'archive.php';">
+                <h1>Tickets closed:</h1>
+                <?php 
+                $countstmt = $pdo->prepare("SELECT COUNT(*) FROM past_tickets WHERE assignee = ?");
+                $countstmt->execute([$name]);
+                $count = $countstmt->fetchColumn();
+                echo "<h1>" . $count . "</h1>";
+                ?>
+            </div>
+            <div <?php $countstmt = $pdo->prepare("SELECT COUNT(*) FROM tickets WHERE assignee = ?"); $countstmt->execute([$name]); $count = $countstmt->fetchColumn(); if ($count > 0) { echo 'id="rbox"'; } else { echo 'id="gbox"'; }?>  onclick="location.href = 'opentickets.php';">
+                <h1>Tickets Open:</h1>
+                <?php 
+                echo "<h1>" . $count . "</h1>";
+                ?>
+            </div>
+            <div id="ibox" onclick="location.href = 'assetregister.php';">
+                <h1>Assets registered:</h1>
+                <?php 
+                $countstmt = $pdo->prepare("SELECT COUNT(*) FROM assetregister WHERE creator = ?");
+                $countstmt->execute([$name]);
+                $count = $countstmt->fetchColumn();
+                echo "<h1>" . $count . "</h1>";
+                ?>
+            </div>
+        </div>
     </section>
     <br> 
 </body>

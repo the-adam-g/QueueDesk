@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2026 at 08:46 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Apr 18, 2026 at 11:49 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,38 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `freetms`
+-- Database: `queuedeskv2`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assetregister`
+--
+
+CREATE TABLE `assetregister` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `serial_num` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `notes` text DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `creator` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_fields`
+--
+
+CREATE TABLE `custom_fields` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT 'none',
+  `type` varchar(255) NOT NULL DEFAULT 'none',
+  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`options`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -37,7 +67,9 @@ CREATE TABLE `past_tickets` (
   `timestamp` timestamp NULL DEFAULT current_timestamp(),
   `email` varchar(254) NOT NULL,
   `urgency` int(11) DEFAULT 4,
-  `uac` varchar(255) NOT NULL
+  `uac` varchar(255) NOT NULL,
+  `custom` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom`)),
+  `summary` varchar(255) DEFAULT 'None'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -56,7 +88,9 @@ CREATE TABLE `tickets` (
   `timestamp` timestamp NULL DEFAULT current_timestamp(),
   `email` varchar(254) NOT NULL,
   `urgency` int(11) DEFAULT 4,
-  `uac` varchar(255) NOT NULL
+  `uac` varchar(255) NOT NULL,
+  `custom` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom`)),
+  `summary` varchar(255) DEFAULT 'None'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -72,12 +106,25 @@ CREATE TABLE `users` (
   `timestamp` timestamp NULL DEFAULT current_timestamp(),
   `role` enum('admin','technician') DEFAULT 'technician',
   `tickets` int(11) DEFAULT 0,
-  `solved` int(11) DEFAULT 0
+  `solved` int(11) DEFAULT 0,
+  `theme` varchar(255) DEFAULT 'light'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `assetregister`
+--
+ALTER TABLE `assetregister`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `custom_fields`
+--
+ALTER TABLE `custom_fields`
+  ADD UNIQUE KEY `ID` (`id`);
 
 --
 -- Indexes for table `past_tickets`
@@ -103,6 +150,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `assetregister`
+--
+ALTER TABLE `assetregister`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `custom_fields`
+--
+ALTER TABLE `custom_fields`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `past_tickets`

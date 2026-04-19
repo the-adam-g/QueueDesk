@@ -16,7 +16,7 @@ if (isset($_SESSION['veruac'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueueDesk dashboard</title>
+    <title>Your QueueDesk Ticket</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="light.css">
     <meta property="og:title" content="QueueDesk">
@@ -43,12 +43,14 @@ if (isset($_SESSION['veruac'])) {
         <th>ASSIGNEE</th>
         <th>EMAIL</th>
         <th>TYPE</th>
-        <th>DETAILS</th>
+        <th>SUMMARY</th>
         <th>URGENCY</th>
         </tr>
         ';
-        echo("<tr>" . "<td>". $ticket['id'] . "</td><td>". htmlspecialchars($ticket['timestamp'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['assignee'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['email'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['type'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['details'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['urgency'], ENT_QUOTES, 'UTF-8') . "</td>");      
+        echo("<tr>" . "<td>". $ticket['id'] . "</td><td>". htmlspecialchars($ticket['timestamp'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['assignee'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['email'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['type'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['summary'], ENT_QUOTES, 'UTF-8') . "</td><td>". htmlspecialchars($ticket['urgency'], ENT_QUOTES, 'UTF-8') . "</td>");      
         echo '</table>';
+        echo "<h1>Additional Details</h1>";
+        echo "<p>" . htmlspecialchars($ticket['summary'], ENT_QUOTES, 'UTF-8')  . "</p>";
         ?>
     </section>
     <br> 

@@ -4,9 +4,9 @@ include "config.php";
 $uac = $_GET['uac'];
 if (!$uac || !preg_match('/^[a-f0-9]{32}$/', $uac)) {
     header("Location: index.php");
+    exit;
 }
 $myticket = "/myticket.php?uac=" . urlencode($uac);
-$uac = htmlspecialchars($uac, ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,10 +61,10 @@ $uac = htmlspecialchars($uac, ENT_QUOTES, 'UTF-8');
         <p id="underlineme">Thank you for using Queue<special>Desk</special></p>
         <p>Queue<special>Desk</special> advises that you do not share your UAC and is not responsible for any repurcussions of a shared UAC.</p>
         <?php 
-        $userurl = "https://" . $_SERVER['HTTP_HOST'] . $myticket;
+        $userurl = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . $myticket;
         echo "<h1>Your Unique Access Code is: " . htmlspecialchars($uac, ENT_QUOTES, 'UTF-8');
         echo "<h1>You can view the progress of your ticket at the following URL: </h1>";
-        echo "<h1><a href='/myticket.php?uac=" . urlencode($uac) . "'>" . $userurl  . "</a></h1>";
+        echo "<h1><a href='". htmlspecialchars($userurl, ENT_QUOTES, 'UTF-8') . "'>" . htmlspecialchars($userurl, ENT_QUOTES, 'UTF-8') . "</a></h1>";
         ?>
         <h1>QR code to your ticket details:</h1>
         <div id="qrcode"></div>
